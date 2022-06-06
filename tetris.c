@@ -4,7 +4,7 @@
 #include <sys/time.h>
 #include <ncurses.h>
 
-#define ROWS 20 // you can change height and width of table with ROWS and COLS 
+#define ROWS 20
 #define COLS 15
 #define TRUE 1
 #define FALSE 0
@@ -12,7 +12,7 @@
 char Table[ROWS][COLS] = {0};
 int score = 0;
 char GameOn = TRUE;
-suseconds_t timer = 400000; // decrease this to make it faster
+suseconds_t timer = 400000;
 int decrease = 1000;
 
 typedef struct {
@@ -22,14 +22,13 @@ typedef struct {
 Shape current;
 
 const Shape ShapesArray[7]= {
-	{(char *[]){(char []){0,1,1},(char []){1,1,0}, (char []){0,0,0}}, 3},                           //S shape     
-	{(char *[]){(char []){1,1,0},(char []){0,1,1}, (char []){0,0,0}}, 3},                           //Z shape     
-	{(char *[]){(char []){0,1,0},(char []){1,1,1}, (char []){0,0,0}}, 3},                           //T shape     
-	{(char *[]){(char []){0,0,1},(char []){1,1,1}, (char []){0,0,0}}, 3},                           //L shape     
-	{(char *[]){(char []){1,0,0},(char []){1,1,1}, (char []){0,0,0}}, 3},                           //flipped L shape    
-	{(char *[]){(char []){1,1},(char []){1,1}}, 2},                                                 //square shape
-	{(char *[]){(char []){0,0,0,0}, (char []){1,1,1,1}, (char []){0,0,0,0}, (char []){0,0,0,0}}, 4} //long bar shape
-	// you can add any shape like it's done above. Don't be naughty.
+	{(char *[]){(char []){0,1,1},(char []){1,1,0}, (char []){0,0,0}}, 3},                               
+	{(char *[]){(char []){1,1,0},(char []){0,1,1}, (char []){0,0,0}}, 3},                                
+	{(char *[]){(char []){0,1,0},(char []){1,1,1}, (char []){0,0,0}}, 3},                                
+	{(char *[]){(char []){0,0,1},(char []){1,1,1}, (char []){0,0,0}}, 3},                               
+	{(char *[]){(char []){1,0,0},(char []){1,1,1}, (char []){0,0,0}}, 3},                               
+	{(char *[]){(char []){1,1},(char []){1,1}}, 2},                                                 
+	{(char *[]){(char []){0,0,0,0}, (char []){1,1,1,1}, (char []){0,0,0,0}, (char []){0,0,0,0}}, 4} 
 };
 
 Shape CopyShape(Shape shape){
@@ -54,13 +53,13 @@ void DeleteShape(Shape shape){
     free(shape.array);
 }
 
-int CheckPosition(Shape shape){ //Check the position of the copied shape
+int CheckPosition(Shape shape){
 	char **array = shape.array;
 	int i, j;
 	for(i = 0; i < shape.width;i++) {
 		for(j = 0; j < shape.width ;j++){
-			if((shape.col+j < 0 || shape.col+j >= COLS || shape.row+i >= ROWS)){ //Out of borders
-				if(array[i][j]) //but is it just a phantom?
+			if((shape.col+j < 0 || shape.col+j >= COLS || shape.row+i >= ROWS)){
+				if(array[i][j])
 					return FALSE;
 				
 			}
@@ -71,7 +70,7 @@ int CheckPosition(Shape shape){ //Check the position of the copied shape
 	return TRUE;
 }
 
-void SetNewRandomShape(){ //updates [current] with new shape
+void SetNewRandomShape(){ 
 	Shape new_shape = CopyShape(ShapesArray[rand()%7]);
 
     new_shape.col = rand()%(COLS-new_shape.width+1);
@@ -83,7 +82,7 @@ void SetNewRandomShape(){ //updates [current] with new shape
 	}
 }
 
-void RotateShape(Shape shape){ //rotates clockwise
+void RotateShape(Shape shape){
 	Shape temp = CopyShape(shape);
 	int i, j, k, width;
 	width = shape.width;
@@ -152,7 +151,7 @@ void ManipulateCurrent(int action){
 	Shape temp = CopyShape(current);
 	switch(action){
 		case 's':
-			temp.row++;  //move down
+			temp.row++;
 			if(CheckPosition(temp))
 				current.row++;
 			else {
@@ -162,17 +161,17 @@ void ManipulateCurrent(int action){
 			}
 			break;
 		case 'd':
-			temp.col++;  //move right
+			temp.col++; 
 			if(CheckPosition(temp))
 				current.col++;
 			break;
 		case 'a':
-			temp.col--;  //move left
+			temp.col--;
 			if(CheckPosition(temp))
 				current.col--;
 			break;
 		case 'w':
-			RotateShape(temp); // rotate clockwise
+			RotateShape(temp);
 			if(CheckPosition(temp))
 				RotateShape(current);
 			break;
@@ -200,7 +199,7 @@ int main() {
 		  ManipulateCurrent(c);
 		}
 		gettimeofday(&now, NULL);
-		if (hasToUpdate()) { //time difference in microsec accuracy
+		if (hasToUpdate()) {
 			ManipulateCurrent('s');
 			gettimeofday(&before_now, NULL);
 		}
