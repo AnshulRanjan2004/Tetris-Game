@@ -9,7 +9,3 @@ You can make new shapes and change the table dimensions easily!:)
 2. then run make. On Mac and Linux run make in your team.
 3. run ./a.out
 
-https://user-images.githubusercontent.com/91585064/172172356-f399cbfa-8b2c-46a0-893c-303176100b09.mov
-
-
-
