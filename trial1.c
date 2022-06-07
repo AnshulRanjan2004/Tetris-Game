@@ -175,9 +175,8 @@ int main() {
     score = 0;
     int c;
     initscr();
-	gettimeofday(&before_now, NULL);
-	timeout(1);
-	SetNewRandomShape();
+    timeout(1);
+    SetNewRandomShape();
     PrintTable();
 	
 	printf("\nGame over!\n");
