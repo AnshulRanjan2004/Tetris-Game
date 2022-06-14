@@ -136,7 +136,7 @@ void PrintTable(){
 	clear();
 	for(i=0; i<COLS-9; i++)
 		printw(" ");
-	printw("Covid Tetris\n");
+	printw("Tetris\n");
 	for(i = 0; i < ROWS ;i++){
 		for(j = 0; j < COLS ; j++){
 			printw("%c ", (Table[i][j] + Buffer[i][j])? '#': '.');
@@ -205,7 +205,13 @@ int main() {
 	}
 	DeleteShape(current);
 	endwin();
-	
+	int i, j;
+	for(i = 0; i < ROWS ;i++){
+		for(j = 0; j < COLS ; j++){
+			printf("%c ", Table[i][j] ? '#': '.');
+		}
+		printf("\n");
+	}
 	printf("\nGame over!\n");
 	printf("\nScore: %d\n", score);
     return 0;
